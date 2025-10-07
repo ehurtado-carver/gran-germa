@@ -1,4 +1,3 @@
-// src/screens/LoginScreen.tsx
 import React, { useState } from "react";
 import { Alert, Button, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { SessionService } from "./session.service";
@@ -12,8 +11,11 @@ export default function LoginScreen({ navigation }: any) {
 
   const handleLogin = async () => {
     try {
-      await sessionService.loginUsuario(email, password);
-      navigation.replace("HomeTabs");
+      const login = await sessionService.loginUsuario(email, password);
+      if (login)
+        navigation.replace("HomeTabs");
+      else
+        alert("Por favor verifica tu correo antes de iniciar sesión");
     } catch (error: any) {
       Alert.alert("Error", error.message);
     }

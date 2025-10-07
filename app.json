@@ -12,10 +12,13 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "scheme": "chatproximidad",
     "ios": {
+      "bundleIdentifier": "com.hurtado.chatproximidad",
       "supportsTablet": true
     },
     "android": {
+      "package": "com.hurtado.chatproximidad",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"

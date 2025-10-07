@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import { auth, db } from "../../firebaseConfig";
 
@@ -7,6 +7,7 @@ export class SessionService {
     //REGISTRAR USUARIO
     public async registrarUsuario(email: string, password: string, displayName: string) {
       const cred = await createUserWithEmailAndPassword(auth, email, password);
+      await sendEmailVerification(cred.user).then(()=>{console.log("bien")}).catch((error)=>{console.log("mal", error)});
       const uid = cred.user.uid;
     
       // Opcional: añadir displayName al perfil de Firebase Auth
@@ -33,6 +34,11 @@ export class SessionService {
     //LOGIN USUARIO
     public async loginUsuario(email: string, password: string) {
       const cred = await signInWithEmailAndPassword(auth, email, password);
-      return cred.user.uid;
+
+      if (!cred.user.emailVerified) {
+        return false;
+      }
+
+      return true;
     }
 }
