@@ -30,7 +30,6 @@ export default function useUbicacion() {
 
           setCoords(nuevaCoords);
 
-          // 🔹 actualizamos Firestore en cada cambio
           actualizarUbicacionUsuario(nuevaCoords.lat, nuevaCoords.lng);
         }
       );

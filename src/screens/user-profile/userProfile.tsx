@@ -19,7 +19,7 @@ export default function userProfile() {
         setUserData(data);
 
         // Calcular tiempo restante si no tiene grupo disponible
-        if (data.lastGroupCreatedAt) {
+        if (data.lastGroupCreatedAt && data.gruposDisponibles == 0) {
           const last = data.lastGroupCreatedAt.toDate();
           const now = new Date();
           const diff = 24 * 60 * 60 * 1000 - (now.getTime() - last.getTime());
@@ -30,6 +30,8 @@ export default function userProfile() {
             setTiempoRestante(`${horas}h ${minutos}m`);
           } else {
             setTiempoRestante("");
+            data.gruposDisponibles = 1;
+            setUserData(data);
           }
         }
       }

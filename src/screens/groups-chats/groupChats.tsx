@@ -1,7 +1,8 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { doc, getDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
-import { auth } from "../../firebaseConfig";
+import { auth, db } from "../../firebaseConfig";
 import useUbicacion from "../../hooks/useUbication";
 import SharedService from "../shared-services/shared.services";
 import GroupChatService from "./groupChat.service";
@@ -37,6 +38,9 @@ export const groupChats = ({ navigation }: ChatsGruposProps) => {
     if (!coords) return;
     const uid = auth.currentUser?.uid;
     if (!uid) return;
+    const snap = await getDoc(doc(db, "users", uid));
+    if (snap.exists())
+      if (snap.data().gruposDisponibles == 0) return;
 
     await sharedService.crearRoom(uid, coords.lat, coords.lng, 2, true, ""); // 2h de duración
     const data = await groupChatService.obtenerGruposCercanos(coords.lat, coords.lng);
