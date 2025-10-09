@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
-  container: { flex: 1, alignItems: "center", padding: 20, backgroundColor: "#fff" },
+  container: { flex: 1, alignItems: "center", padding: 20, backgroundColor: "#fff", minWidth: "100%" },
   avatar: {
     width: 120,
     height: 120,
@@ -39,5 +39,17 @@ export default StyleSheet.create({
     marginTop: 5,
     fontSize: 14,
     color: "red",
+  },
+  logoutButton: {
+    backgroundColor: "#FF3B30",
+    paddingVertical: 12,
+    paddingHorizontal: 40,
+    borderRadius: 25,
+    marginBottom: 20,
+  },
+  logoutButtonText: {
+    color: "#fff",
+    fontWeight: "bold",
+    fontSize: 16,
   },
 });

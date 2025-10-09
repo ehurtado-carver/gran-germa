@@ -1,4 +1,4 @@
-import { collection, doc, serverTimestamp, setDoc, Timestamp, updateDoc } from "firebase/firestore";
+import { collection, doc, getDoc, serverTimestamp, setDoc, Timestamp, updateDoc } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
 
 export default class SharedService {
@@ -8,8 +8,12 @@ export default class SharedService {
         try {
         const ref = roomId ? doc(db, "rooms", roomId) : doc(collection(db, "rooms"));
         const expiresAt = Timestamp.fromMillis(Date.now() + horas * 60 * 60 * 1000);
+        let userName = "";
+        const snap = await getDoc(doc(db, "users", uid));
+        if (snap.exists()) userName = snap.data().displayName;
         await setDoc(ref, {
             createdBy: uid,
+            createdByName: userName,
             location: { lat, lng },
             createdAt: serverTimestamp(),
             expiresAt,

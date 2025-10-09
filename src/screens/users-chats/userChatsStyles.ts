@@ -10,57 +10,52 @@ export default StyleSheet.create({
   card: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
     backgroundColor: "#fff",
-    padding: 14,
     marginVertical: 8,
+    padding: 14,
     borderRadius: 16,
     shadowColor: "#000",
     shadowOpacity: 0.08,
     shadowRadius: 6,
     shadowOffset: { width: 0, height: 2 },
     elevation: 2,
-    borderLeftWidth: 0,
+    borderLeftWidth: 0, // se sobrescribe dinámicamente
+  },
+  avatarContainer: {
+    width: 52,
+    height: 52,
+    borderRadius: 26,
+    overflow: "hidden",
+    marginRight: 14,
+  },
+  avatar: {
+    width: "100%",
+    height: "100%",
   },
   infoContainer: {
     flex: 1,
   },
   name: {
-    fontSize: 16,
+    fontSize: 17,
     fontWeight: "600",
     color: "#222",
   },
-  creator: {
-    fontSize: 13,
+  distance: {
+    fontSize: 14,
     color: "#777",
     marginTop: 2,
   },
-  fab: {
-    position: "absolute",
-    bottom: 20,
-    right: 20,
-    backgroundColor: "#007AFF",
-    width: 60,
-    height: 60,
-    borderRadius: 30,
+  iconContainer: {
     justifyContent: "center",
     alignItems: "center",
-    shadowColor: "#000",
-    shadowOpacity: 0.3,
-    shadowRadius: 5,
-    elevation: 5,
   },
   emptyState: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 40,
   },
-  expire: {
-    fontSize: 12,
-    color: "#FF5722",
-    marginTop: 4,
-    fontWeight: "500",
+  emptyText: {
+    color: "#777",
+    fontSize: 16,
   },
-
 });

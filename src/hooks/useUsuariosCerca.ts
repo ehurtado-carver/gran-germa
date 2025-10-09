@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { auth, calcularDistancia, db } from "../firebaseConfig";
 import useUbicacion from "./useUbication";
 
-export function useUsuariosCerca(radioMetros: number = 100) {
+export function useUsuariosCerca(radioMetros: number = 500) {
   const [usuarios, setUsuarios] = useState<any[]>([]);
   const ubicacion = useUbicacion(); // tu hook que se va actualizando
 
@@ -28,6 +28,7 @@ export function useUsuariosCerca(radioMetros: number = 100) {
           }
         }
       });
+      cerca.sort((a, b) => a.distancia - b.distancia);
       setUsuarios(cerca);
     });
 

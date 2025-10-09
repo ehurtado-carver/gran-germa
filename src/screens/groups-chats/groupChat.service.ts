@@ -4,7 +4,7 @@ import { calcularDistancia, db } from "../../firebaseConfig";
 export default class GroupChatService {
     
     //OBTENER GRUPOS CERCA
-    public obtenerGruposCercanos = async (lat: number, lng: number, radio = 100) => {
+    public obtenerGruposCercanos = async (lat: number, lng: number, radio = 500) => {
       try {
         const roomsRef = collection(db, "rooms");
         const q = query(roomsRef, where("isGroup", "==", true));

@@ -1,45 +1,71 @@
-// src/screens/UserChats.tsx
+import { Ionicons } from "@expo/vector-icons";
 import React from "react";
-import { FlatList, Text, TouchableOpacity, View } from "react-native";
+import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
 import { auth } from "../../firebaseConfig";
 import { useUsuariosCerca } from "../../hooks/useUsuariosCerca";
+import styles from "./userChatsStyles";
 
 export default function UserChats({ navigation }: any) {
-  const usuarios = useUsuariosCerca(100);
+  const usuarios = useUsuariosCerca(500);
+
+  const getColorByDistance = (distancia: number) => {
+    if (distancia < 50) return "#4CAF50";
+    if (distancia < 100) return "#8BC34A";
+    if (distancia < 200) return "#CDDC39";
+    return "#ccc";
+  };
+
+
+  const renderItem = ({ item }: any) => (
+    <TouchableOpacity
+      style={[styles.card, { borderLeftColor: getColorByDistance(item.distancia), borderLeftWidth: 6 }]}
+      activeOpacity={0.8}
+      onPress={() =>
+        navigation.navigate("ChatRoom", {
+          roomId: generarRoomId(item.id),
+          peerId: item.id,
+          group: false,
+        })
+      }
+    >
+      <View style={styles.avatarContainer}>
+        <Image
+          source={{ uri: item.photoURL || "https://i.pravatar.cc/100" }}
+          style={styles.avatar}
+        />
+      </View>
+
+      <View style={styles.infoContainer}>
+        <Text style={styles.name}>{item.displayName || "Anónimo"}</Text>
+        <Text style={styles.distance}>📍 A ~{Math.round(item.distancia)} m</Text>
+      </View>
+
+      <View style={styles.iconContainer}>
+        <Ionicons name="chevron-forward" size={20} color="#007AFF" />
+      </View>
+    </TouchableOpacity>
+  );
 
   return (
-    <View style={{ flex: 1, padding: 16 }}>
-      <FlatList
-        data={usuarios}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            style={{
-              padding: 12,
-              borderBottomWidth: 1,
-              borderBottomColor: "#ccc",
-            }}
-            onPress={() =>
-              navigation.navigate("ChatRoom", {
-                roomId: generarRoomId(item.id),
-                peerId: item.id,
-                group: false
-              })
-            }
-          >
-            <Text style={{ fontWeight: "bold" }}>
-              {item.displayName || "Anonimo"}
-            </Text>
-            <Text>A ~{Math.round(item.distancia)} m</Text>
-          </TouchableOpacity>
-        )}
-      />
+    <View style={styles.container}>
+      {usuarios.length === 0 ? (
+        <View style={styles.emptyState}>
+          <Text style={styles.emptyText}>No hay usuarios cerca 😔</Text>
+        </View>
+      ) : (
+        <FlatList
+          data={usuarios}
+          keyExtractor={(item) => item.id}
+          renderItem={renderItem}
+          showsVerticalScrollIndicator={false}
+        />
+      )}
     </View>
   );
 }
 
 function generarRoomId(peerId: string) {
   const uid = auth.currentUser?.uid;
-  if (uid == undefined) return;
+  if (!uid) return;
   return uid < peerId ? `${uid}_${peerId}` : `${peerId}_${uid}`;
 }
