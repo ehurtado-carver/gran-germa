@@ -1,7 +1,8 @@
 import { StyleSheet } from "react-native";
+import { theme } from "../../themeStyles";
 
 export default StyleSheet.create({
-  container: { flex: 1, alignItems: "center", padding: 20, backgroundColor: "#fff", minWidth: "100%" },
+  container: { flex: 1, alignItems: "center", padding: 20, backgroundColor: theme.colors.background, minWidth: "100%" },
   avatar: {
     width: 120,
     height: 120,
@@ -13,6 +14,7 @@ export default StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     marginBottom: 30,
+    color: "#ffff"
   },
   statsContainer: {
     width: "100%",
@@ -21,7 +23,9 @@ export default StyleSheet.create({
   statBox: {
     padding: 15,
     marginBottom: 15,
-    backgroundColor: "#f2f2f2",
+    backgroundColor: "#ffffff56",
+    borderColor: "#ffffffff",
+    borderWidth: 2,
     borderRadius: 12,
     alignItems: "center",
   },
@@ -29,19 +33,20 @@ export default StyleSheet.create({
     fontSize: 16,
     fontWeight: "500",
     marginBottom: 5,
+    color: "#ffff"
   },
   statValue: {
     fontSize: 20,
     fontWeight: "bold",
-    color: "#007AFF",
+    color: "#000000ff",
   },
   counterText: {
     marginTop: 5,
     fontSize: 14,
-    color: "red",
+    color: "#a50a01ff",
   },
   logoutButton: {
-    backgroundColor: "#FF3B30",
+    backgroundColor: "#a50a01ff",
     paddingVertical: 12,
     paddingHorizontal: 40,
     borderRadius: 25,

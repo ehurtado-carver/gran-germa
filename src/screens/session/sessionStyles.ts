@@ -1,21 +1,38 @@
 import { StyleSheet } from "react-native";
+import { theme } from "../../themeStyles";
 
 export default StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    //justifyContent: "center",
     padding: 20,
-    backgroundColor: "#f9f9fb",
+    backgroundColor: theme.colors.background,
   },
   title: {
-    fontSize: 32,
+    fontSize: 42,
+    marginTop: 200,
+    marginBottom: 25,
     fontWeight: "bold",
-    color: "#222",
-    marginBottom: 40,
+    color: theme.colors.primaryText,
+    textAlign: "center",
+  },
+  headRegister: {
+    flexDirection: "row", 
+    alignItems: "center", 
+    justifyContent: "center", 
+    marginTop: 200, 
+    marginBottom: 50
+  },
+  titleRegister: {
+    fontSize: 42,
+    marginBottom: 25,
+    marginTop: 25,
+    fontWeight: "bold",
+    color: theme.colors.primaryText,
     textAlign: "center",
   },
   input: {
-    backgroundColor: "#fff",
+    backgroundColor: "#FBF1E4",
     paddingVertical: 12,
     paddingHorizontal: 16,
     borderRadius: 12,
@@ -28,7 +45,7 @@ export default StyleSheet.create({
     elevation: 2,
   },
   button: {
-    backgroundColor: "#007AFF",
+    backgroundColor: "#FCAF6B",
     paddingVertical: 14,
     borderRadius: 14,
     alignItems: "center",
@@ -40,7 +57,7 @@ export default StyleSheet.create({
     elevation: 3,
   },
   buttonText: {
-    color: "#fff",
+    color: "#000000ff",
     fontSize: 16,
     fontWeight: "bold",
   },
@@ -49,7 +66,7 @@ export default StyleSheet.create({
     alignItems: "center",
   },
   registerText: {
-    color: "#007AFF",
+    color: "#FCAF6B",
     fontWeight: "bold",
     fontSize: 14,
   },

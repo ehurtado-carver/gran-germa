@@ -57,9 +57,9 @@ export const groupChats = ({ navigation }: ChatsGruposProps) => {
   }
 
   const getColorByDistance = (distancia: number) => {
-    if (distancia < 50) return "#4CAF50";
-    if (distancia < 100) return "#8BC34A";
-    if (distancia < 200) return "#CDDC39";
+    if (distancia < 50) return "#95e798ff";
+    if (distancia < 100) return "#f3a0a0ff";
+    if (distancia < 200) return "#ecea70ff";
     return "#ccc";
   };
 
@@ -109,7 +109,7 @@ export const groupChats = ({ navigation }: ChatsGruposProps) => {
       )}
 
       <TouchableOpacity style={styles.fab} onPress={handleCrearGrupo}>
-        <Text style={{ color: "#fff", fontSize: 28 }}>＋</Text>
+        <Text style={{ color: "#000000ff", fontSize: 28 }}>＋</Text>
       </TouchableOpacity>
     </View>
   );

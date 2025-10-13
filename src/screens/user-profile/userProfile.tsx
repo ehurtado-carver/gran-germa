@@ -6,7 +6,7 @@ import { Alert, Image, Pressable, ScrollView, Text, View } from "react-native";
 import { auth, db } from "../../firebaseConfig";
 import styles from "./userProfileStyles";
 
-const IMG_BB_API_KEY = "38dae126d7f13849780b9b17fca9a9a5";
+const IMG_BB_API_KEY = "5fbc55d7808939e808df8477c8eaefb4";
 
 export default function userProfile({ navigation }: any) {
   const [userData, setUserData] = useState<any>(null);

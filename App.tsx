@@ -1,3 +1,4 @@
+import { Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -14,11 +15,34 @@ const Tab = createBottomTabNavigator();
 
 function Tabs() {
   return (
-    <Tab.Navigator>
-      <Tab.Screen name="Usuarios" component={UserChats} />
-      <Tab.Screen name="Grupos" component={groupChats} />
-      <Tab.Screen name="Perfil" component={userProfile} />
-    </Tab.Navigator>
+    <Tab.Navigator
+  screenOptions={({ route }) => ({
+    headerStyle: {
+      backgroundColor: "#470275ff",
+      borderWidth: 2,
+    },
+    headerTintColor: "#fff",
+    tabBarStyle: {
+      backgroundColor: "#182848",
+      borderTopColor: "transparent",
+    },
+    tabBarActiveTintColor: "#fff",
+    tabBarInactiveTintColor: "#aaa",
+    tabBarIcon: ({ color, size }) => {
+      let iconName: keyof typeof Ionicons.glyphMap = "home";
+
+      if (route.name === "USERS IN 500M") iconName = "chatbubble-outline";
+      else if (route.name === "GROUPS IN 500M") iconName = "chatbubbles-outline";
+      else if (route.name === "PROFILE") iconName = "person-circle-outline";
+
+      return <Ionicons name={iconName} size={size} color={color} />;
+    },
+  })}
+>
+  <Tab.Screen name="USERS IN 500M" component={UserChats} />
+  <Tab.Screen name="GROUPS IN 500M" component={groupChats} />
+  <Tab.Screen name="PROFILE" component={userProfile} />
+</Tab.Navigator>
   );
 }
 

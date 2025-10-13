@@ -1,19 +1,22 @@
 import { StyleSheet } from "react-native";
+import { theme } from "../../themeStyles";
 
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f9f9fb",
+    backgroundColor: theme.colors.background,
     paddingHorizontal: 16,
     paddingTop: 10,
   },
   card: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#fff",
+    backgroundColor: "#ffffff56",
     marginVertical: 8,
     padding: 14,
     borderRadius: 16,
+    borderColor: "#ffffffff",
+    borderWidth: 2,
     shadowColor: "#000",
     shadowOpacity: 0.08,
     shadowRadius: 6,
@@ -38,11 +41,11 @@ export default StyleSheet.create({
   name: {
     fontSize: 17,
     fontWeight: "600",
-    color: "#222",
+    color: "#ffffffff",
   },
   distance: {
     fontSize: 14,
-    color: "#777",
+    color: "#fcfcfcff",
     marginTop: 2,
   },
   iconContainer: {

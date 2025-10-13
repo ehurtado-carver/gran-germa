@@ -1,9 +1,10 @@
 import { StyleSheet } from "react-native";
+import { theme } from "../../themeStyles";
 
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f9f9fb",
+    backgroundColor: theme.colors.background,
     paddingHorizontal: 16,
     paddingTop: 10,
   },
@@ -11,10 +12,12 @@ export default StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    backgroundColor: "#fff",
+    backgroundColor: "#ffffff56",
     padding: 14,
     marginVertical: 8,
     borderRadius: 16,
+    borderColor: "#ffffffff",
+    borderWidth: 2,
     shadowColor: "#000",
     shadowOpacity: 0.08,
     shadowRadius: 6,
@@ -28,18 +31,18 @@ export default StyleSheet.create({
   name: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#222",
+    color: "#ffffffff",
   },
   creator: {
     fontSize: 13,
-    color: "#777",
+    color: "#fcfcfcff",
     marginTop: 2,
   },
   fab: {
     position: "absolute",
     bottom: 20,
     right: 20,
-    backgroundColor: "#007AFF",
+    backgroundColor: "#ffffffff",
     width: 60,
     height: 60,
     borderRadius: 30,
@@ -58,7 +61,7 @@ export default StyleSheet.create({
   },
   expire: {
     fontSize: 12,
-    color: "#FF5722",
+    color: "#a50a01ff",
     marginTop: 4,
     fontWeight: "500",
   },

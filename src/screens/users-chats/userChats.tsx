@@ -9,9 +9,9 @@ export default function UserChats({ navigation }: any) {
   const usuarios = useUsuariosCerca(500);
 
   const getColorByDistance = (distancia: number) => {
-    if (distancia < 50) return "#4CAF50";
-    if (distancia < 100) return "#8BC34A";
-    if (distancia < 200) return "#CDDC39";
+    if (distancia < 50) return "#95e798ff";
+    if (distancia < 100) return "#f3a0a0ff";
+    if (distancia < 200) return "#ecea70ff";
     return "#ccc";
   };
 
@@ -41,26 +41,26 @@ export default function UserChats({ navigation }: any) {
       </View>
 
       <View style={styles.iconContainer}>
-        <Ionicons name="chevron-forward" size={20} color="#007AFF" />
+        <Ionicons name="chevron-forward" size={20} color="#fdfdfdff" />
       </View>
     </TouchableOpacity>
   );
 
   return (
-    <View style={styles.container}>
-      {usuarios.length === 0 ? (
-        <View style={styles.emptyState}>
-          <Text style={styles.emptyText}>No hay usuarios cerca 😔</Text>
-        </View>
-      ) : (
-        <FlatList
-          data={usuarios}
-          keyExtractor={(item) => item.id}
-          renderItem={renderItem}
-          showsVerticalScrollIndicator={false}
-        />
-      )}
-    </View>
+      <View style={styles.container}>
+        {usuarios.length === 0 ? (
+          <View style={styles.emptyState}>
+            <Text style={styles.emptyText}>No hay usuarios cerca 😔</Text>
+          </View>
+        ) : (
+          <FlatList
+            data={usuarios}
+            keyExtractor={(item) => item.id}
+            renderItem={renderItem}
+            showsVerticalScrollIndicator={false}
+          />
+        )}
+      </View>
   );
 }
 
