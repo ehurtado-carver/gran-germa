@@ -11,23 +11,22 @@ export default StyleSheet.create({
   card: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#ffffff56",
+    backgroundColor: "",
     marginVertical: 8,
     padding: 14,
-    borderRadius: 16,
-    borderColor: "#ffffffff",
-    borderWidth: 2,
+    borderColor: theme.colors.input,
+    borderBottomWidth: 2,
     shadowColor: "#000",
     shadowOpacity: 0.08,
     shadowRadius: 6,
     shadowOffset: { width: 0, height: 2 },
     elevation: 2,
-    borderLeftWidth: 0, // se sobrescribe dinámicamente
   },
   avatarContainer: {
-    width: 52,
-    height: 52,
-    borderRadius: 26,
+    width: 75,
+    height: 75,
+    borderRadius: 35,
+    borderWidth: 2,
     overflow: "hidden",
     marginRight: 14,
   },
@@ -41,7 +40,7 @@ export default StyleSheet.create({
   name: {
     fontSize: 17,
     fontWeight: "600",
-    color: "#ffffffff",
+    color: theme.colors.button,
   },
   distance: {
     fontSize: 14,
@@ -58,7 +57,7 @@ export default StyleSheet.create({
     alignItems: "center",
   },
   emptyText: {
-    color: "#777",
-    fontSize: 16,
+    color: theme.colors.button,
+    fontSize: 20,
   },
 });

@@ -2,55 +2,107 @@ import { StyleSheet } from "react-native";
 import { theme } from "../../themeStyles";
 
 export default StyleSheet.create({
-  container: { flex: 1, alignItems: "center", padding: 20, backgroundColor: theme.colors.background, minWidth: "100%" },
+  container: { flex: 1, backgroundColor: theme.colors.background },
+
+  // Sección superior
+  topSection: {
+    flexDirection: "row",
+    width: "100%",
+    height: 180,
+    alignItems: "stretch",
+  },
+  leftSection: {
+    flex: 1,
+    backgroundColor: "#d3a074ff",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 15,
+    borderBottomEndRadius: 5
+  },
+  rightSection: {
+    flex: 1,
+    backgroundColor: theme.colors.background,
+    justifyContent: "center",
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+  },
   avatar: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
-    marginTop: 20,
-    marginBottom: 10,
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    borderWidth: 3,
+    borderColor: "#fff",
   },
   username: {
-    fontSize: 20,
+    marginTop: 10,
+    color: "#fff",
     fontWeight: "bold",
-    marginBottom: 30,
-    color: "#ffff"
+    fontSize: 18,
   },
-  statsContainer: {
-    width: "100%",
-    marginTop: 20,
+  infoText: { color: theme.colors.input, fontSize: 15, marginVertical: 4 },
+  infoTextResult: { color: theme.colors.button, fontSize: 15, marginVertical: 4, paddingLeft: 20 },
+
+  // Estadísticas
+  statsRow: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginTop: 25,
   },
-  statBox: {
-    padding: 15,
-    marginBottom: 15,
-    backgroundColor: "#ffffff56",
-    borderColor: "#ffffffff",
-    borderWidth: 2,
-    borderRadius: 12,
+  statCard: {
+    backgroundColor: theme.colors.button,
+    paddingVertical: 20,
+    paddingHorizontal: 10,
+    borderRadius: 15,
+    width: "28%",
     alignItems: "center",
   },
-  statTitle: {
-    fontSize: 16,
-    fontWeight: "500",
-    marginBottom: 5,
-    color: "#ffff"
-  },
-  statValue: {
-    fontSize: 20,
+  statNumber: {
+    fontSize: 22,
     fontWeight: "bold",
     color: "#000000ff",
   },
-  counterText: {
-    marginTop: 5,
+  statLabel: { 
+    color: "#000000ff", 
+    marginTop: 4, 
     fontSize: 14,
-    color: "#a50a01ff",
+  },
+
+  // Sección inferior
+  bottomSection: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+    marginTop: 30,
+    paddingHorizontal: 20,
+    backgroundColor: theme.colors.button,
+    borderRadius: 16,
+  },
+  groupCircle: {
+    alignItems: "center",
+    marginVertical: 55,
+  },
+  groupCount: {
+    fontSize: 36,
+    fontWeight: "bold",
+    color: "#000000ff",
+  },
+  groupLabel: { fontSize: 20, color: "#000000ff", fontWeight: "bold"},
+  timerContainer: {
+    alignItems: "center",
+  },
+  timerText: { fontSize: 14, color: "#000000ff", fontWeight: "bold" },
+
+  // Logout
+  logoutContainer: {
+    alignItems: "center",
+    marginTop: 40,
+    marginBottom: 30,
   },
   logoutButton: {
-    backgroundColor: "#a50a01ff",
+    backgroundColor: "#FF3B30",
     paddingVertical: 12,
     paddingHorizontal: 40,
     borderRadius: 25,
-    marginBottom: 20,
   },
   logoutButtonText: {
     color: "#fff",

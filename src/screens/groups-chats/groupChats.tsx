@@ -3,6 +3,8 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { doc, getDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
+import { AnimatedCircularProgress } from "react-native-circular-progress";
+import { Button, Dialog, Divider, Portal, TextInput } from 'react-native-paper';
 import { auth, db } from "../../firebaseConfig";
 import useUbicacion from "../../hooks/useUbication";
 import SharedService from "../shared-services/shared.services";
@@ -11,18 +13,23 @@ import styles from "./groupChatStyles";
 
 type StackParamList = {
   HomeTabs: undefined;
-  ChatRoom: { roomId: string, group: boolean };
+  ChatRoom: { roomId: string, distance: string, name: string, time: string };
 };
 
 type ChatsGruposProps = {
   navigation: NativeStackNavigationProp<StackParamList, "HomeTabs">;
 };
 
-export const groupChats = ({ navigation }: ChatsGruposProps) => {
+export const GroupChats = ({ navigation }: ChatsGruposProps) => {
   const [grupos, setGrupos] = useState<any[]>([]);
+  const [visible, setVisible] = useState(false);
+  const [groupName, setGroupName] = useState("Group");
   const coords = useUbicacion();
   const groupChatService = new GroupChatService();
   const sharedService = new SharedService();
+
+  const showDialog = () => setVisible(true);
+  const hideDialog = () => setVisible(false);
 
   useEffect(() => {
     if (coords) {
@@ -33,34 +40,34 @@ export const groupChats = ({ navigation }: ChatsGruposProps) => {
     }
   }, [coords]);
 
-  const handleCrearGrupo = async () => {
-    if (!coords) return;
-    const uid = auth.currentUser?.uid;
-    if (!uid) return;
-    const snap = await getDoc(doc(db, "users", uid));
-    if (snap.exists()) {
-      console.log(snap.data().gruposDisponibles);
-      if (snap.data().gruposDisponibles == 0) return;}
-      
+  const handleConfirmGroup = async () => {
+    if (!groupName.trim()) return;
 
-    await sharedService.crearRoom(uid, coords.lat, coords.lng, 2, true, "");
+    const uid = auth.currentUser?.uid;
+    if (!uid || !coords) return;
+
+    const snap = await getDoc(doc(db, "users", uid));
+    if (snap.exists() && snap.data().gruposDisponibles === 0) {
+      hideDialog();
+      return;
+    }
+
+    await sharedService.crearRoom(uid, coords.lat, coords.lng, 2, true, "", groupName);
     const data = await groupChatService.obtenerGruposCercanos(coords.lat, coords.lng);
     setGrupos(data);
+
+    setGroupName("");
+    hideDialog();
   };
 
-  const getUserById = async ({ item }: any) => {
-    console.log(item);
-    const snap = await getDoc(doc(db, "users", item.createdBy));
-    if (snap.exists())
-      return snap.data().displayName;
-    return "Anonimo";
-  }
+  const handleCrearGrupo = async () => {
+    showDialog();
+  };
 
-  const getColorByDistance = (distancia: number) => {
-    if (distancia < 50) return "#95e798ff";
-    if (distancia < 100) return "#f3a0a0ff";
-    if (distancia < 200) return "#ecea70ff";
-    return "#ccc";
+  const getBorderColorByAuthor = (createdBy: string) => {
+    const uid = auth.currentUser?.uid;
+    if (createdBy == uid) return "#68b36b94";
+    else return "#ffba3acb"
   };
 
   const renderItem = ({ item }: any) => {
@@ -74,22 +81,61 @@ export const groupChats = ({ navigation }: ChatsGruposProps) => {
     const tiempoStr = tiempoRestante > 0
       ? `${horas > 0 ? horas + "h " : ""}${minutos}m`
       : "Expirado";
+
+    const progressTime = tiempoRestante
+      ? 100 - (tiempoRestante / (2 * 60 * 60)) * 100
+      : 100;
+
+    const progressDistance = Math.min(100, Math.max(0, (1 - item.distancia / 500) * 100));
     
     return (
-    <TouchableOpacity
-      style={[styles.card, { borderLeftColor: getColorByDistance(item.distancia), borderLeftWidth: 6 }]}
-      activeOpacity={0.8}
-      onPress={() => navigation.navigate("ChatRoom", { roomId: item.id, group: true })}
-    >
-      <View style={styles.infoContainer}>
-        <Text style={styles.name}>Grupo en ~{Math.round(item.distancia)} m</Text>
-        <Text style={styles.creator}>Creador: {item.createdByName}</Text>
-        <Text style={styles.expire}>
-          ⏱ {tiempoStr}
-        </Text>
+      <View>
+        <TouchableOpacity
+          style={[styles.card, { borderColor: getBorderColorByAuthor(item.createdBy) }]}
+          activeOpacity={0.8}
+          onPress={() => navigation.navigate("ChatRoom", { roomId: item.id, distance: item.distancia, name: item.groupName, time: tiempoStr })}
+        >
+          <View style={styles.infoContainer}>
+            <Text style={styles.name}>{item.groupName}</Text>
+            <View style={{flexDirection: "row"}}>
+              <Text style={styles.creator}>Creator:</Text>
+              <Text style={styles.creatorName}>{item.createdByName}</Text>
+            </View>
+          </View>
+          <View style={styles.timerContainer}>
+            <AnimatedCircularProgress
+              size={50}
+              width={5}
+              fill={progressDistance}
+              tintColor="#FCAF6B"
+              backgroundColor="#404040"
+            >
+              {() => (
+                <Text style={styles.timerText}>
+                  ~{Math.round(item.distancia)} m
+                </Text>
+              )}
+            </AnimatedCircularProgress>
+          </View>
+          <View style={styles.timerContainer}>
+            <AnimatedCircularProgress
+              size={50}
+              width={5}
+              fill={progressTime}
+              tintColor="#FCAF6B"
+              backgroundColor="#404040"
+            >
+              {() => (
+                <Text style={styles.timerText}>
+                  {tiempoStr}
+                </Text>
+              )}
+            </AnimatedCircularProgress>
+          </View>
+          <Ionicons name="chevron-forward" size={24} color="#404040" />
+        </TouchableOpacity>
+        <Divider bold style={{ marginVertical: 5, backgroundColor: "#FBF1E4" }}/>
       </View>
-      <Ionicons name="chevron-forward" size={24} color="#007AFF" />
-    </TouchableOpacity>
     );
   };
 
@@ -97,7 +143,7 @@ export const groupChats = ({ navigation }: ChatsGruposProps) => {
     <View style={styles.container}>
       {grupos.length === 0 ? (
         <View style={styles.emptyState}>
-          <Text>No hay grupos cerca 😔</Text>
+          <Text style={styles.emptyText}>No groups near 😔</Text>
         </View>
       ) : (
         <FlatList
@@ -109,8 +155,28 @@ export const groupChats = ({ navigation }: ChatsGruposProps) => {
       )}
 
       <TouchableOpacity style={styles.fab} onPress={handleCrearGrupo}>
-        <Text style={{ color: "#000000ff", fontSize: 28 }}>＋</Text>
+        <Text style={{ color: "#FBF1E4", fontSize: 30, fontWeight: "bold" }}>＋</Text>
       </TouchableOpacity>
+
+      <Portal>
+        <Dialog visible={visible} onDismiss={hideDialog} style={{backgroundColor: "#FBF1E4"}}>
+          <Dialog.Title style={{color: "#404040"}}>Create group</Dialog.Title>
+          <Dialog.Content>
+            <TextInput
+              label="Group name"
+              value={groupName}
+              onChangeText={setGroupName}
+              mode="flat"
+              style={{backgroundColor: "white"}}
+              activeUnderlineColor="#404040"
+            />
+          </Dialog.Content>
+          <Dialog.Actions>
+            <Button textColor="#404040" onPress={hideDialog}>Cancel</Button>
+            <Button textColor="#404040" onPress={handleConfirmGroup}>Create</Button>
+          </Dialog.Actions>
+        </Dialog>
+      </Portal>
     </View>
   );
 };

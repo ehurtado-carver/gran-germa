@@ -10,25 +10,26 @@ export default function UserChats({ navigation }: any) {
 
   const getColorByDistance = (distancia: number) => {
     if (distancia < 50) return "#95e798ff";
-    if (distancia < 100) return "#f3a0a0ff";
-    if (distancia < 200) return "#ecea70ff";
+    if (distancia < 100) return "#ecea70ff";
+    if (distancia < 200) return "#f3a0a0ff";
     return "#ccc";
   };
 
 
   const renderItem = ({ item }: any) => (
     <TouchableOpacity
-      style={[styles.card, { borderLeftColor: getColorByDistance(item.distancia), borderLeftWidth: 6 }]}
+      style={styles.card}
       activeOpacity={0.8}
       onPress={() =>
-        navigation.navigate("ChatRoom", {
+        navigation.navigate("ChatRoomPrivate", {
           roomId: generarRoomId(item.id),
+          userChat: item.id,
+          distance: item.distancia,
           peerId: item.id,
-          group: false,
         })
       }
     >
-      <View style={styles.avatarContainer}>
+      <View style={[styles.avatarContainer, {borderColor: getColorByDistance(item.distancia)}]}>
         <Image
           source={{ uri: item.photoURL || "https://i.pravatar.cc/100" }}
           style={styles.avatar}
@@ -37,11 +38,17 @@ export default function UserChats({ navigation }: any) {
 
       <View style={styles.infoContainer}>
         <Text style={styles.name}>{item.displayName || "Anónimo"}</Text>
-        <Text style={styles.distance}>📍 A ~{Math.round(item.distancia)} m</Text>
+        <View style={{ flexDirection: "row", alignItems: "center", marginTop: 5 }}>
+          <Image
+            source={require("../../../assets/medio-logo-izq.jpeg")}
+            style={{ width: 16, height: 21, marginRight: 5 }}
+          />
+          <Text style={styles.distance}>~{Math.round(item.distancia)} m</Text>
+        </View>
       </View>
 
       <View style={styles.iconContainer}>
-        <Ionicons name="chevron-forward" size={20} color="#fdfdfdff" />
+        <Ionicons name="chevron-forward" size={20} color="#FBF1E4" />
       </View>
     </TouchableOpacity>
   );
@@ -50,7 +57,7 @@ export default function UserChats({ navigation }: any) {
       <View style={styles.container}>
         {usuarios.length === 0 ? (
           <View style={styles.emptyState}>
-            <Text style={styles.emptyText}>No hay usuarios cerca 😔</Text>
+            <Text style={styles.emptyText}>No users near 😔</Text>
           </View>
         ) : (
           <FlatList

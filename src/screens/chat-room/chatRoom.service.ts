@@ -13,7 +13,7 @@ export default class ChatRoomService {
       const unsubscribe = onSnapshot(q, (snapshot) => {
         const mensajes: any[] = [];
         snapshot.forEach((doc) => {
-          mensajes.push({ id: doc.id, ...doc.data() });
+          mensajes.push({ id: doc.id, ...doc.data(), createdAt: doc.data().createdAt?.toDate ? doc.data().createdAt.toDate() : null, });
         });
         callback(mensajes);
       });
@@ -25,10 +25,15 @@ export default class ChatRoomService {
     public enviarMensaje = async (roomId: string, texto: string, uid: string, group: boolean) => {
       const roomRef = doc(db, "rooms", roomId);
       const roomSnap = await getDoc(roomRef);
+
+      const userRef = doc(db, "users", uid);
+      const userSnap = await getDoc(userRef);
     
       if (!roomSnap.exists()) return;
+      if (!userSnap.exists()) return;
     
       const roomData = roomSnap.data();
+      const userData = userSnap.data();
 
       const qMyMessages = query(
         collection(db, "rooms", roomId, "messages"),
@@ -48,11 +53,11 @@ export default class ChatRoomService {
         console.log(group);
         
         if (!group) {
-          await updateDoc(doc(db, "users", uid), {
+          await updateDoc(userRef, {
             personasEncontradas: increment(1)
           });
           if (!roomData.participants.includes(uid)) {
-            await updateDoc(doc(db, "users", uid), {
+            await updateDoc(userRef, {
               matches: increment(1)
             });
     
@@ -64,7 +69,7 @@ export default class ChatRoomService {
           }
         }
         else {
-          await updateDoc(doc(db, "users", uid), {
+          await updateDoc(userRef, {
             gruposEncontrados: increment(1)
           });
         }
@@ -73,6 +78,8 @@ export default class ChatRoomService {
       await addDoc(collection(db, "rooms", roomId, "messages"), {
         text: texto,
         createdBy: uid,
+        createdByName: userData.displayName,
+        image: userData.photoURL,
         createdAt: serverTimestamp(),
       });
     };

@@ -32,7 +32,7 @@ export default StyleSheet.create({
     textAlign: "center",
   },
   input: {
-    backgroundColor: "#FBF1E4",
+    backgroundColor: theme.colors.input,
     paddingVertical: 12,
     paddingHorizontal: 16,
     borderRadius: 12,
@@ -45,7 +45,7 @@ export default StyleSheet.create({
     elevation: 2,
   },
   button: {
-    backgroundColor: "#FCAF6B",
+    backgroundColor: theme.colors.button,
     paddingVertical: 14,
     borderRadius: 14,
     alignItems: "center",
@@ -66,7 +66,7 @@ export default StyleSheet.create({
     alignItems: "center",
   },
   registerText: {
-    color: "#FCAF6B",
+    color: theme.colors.button,
     fontWeight: "bold",
     fontSize: 14,
   },

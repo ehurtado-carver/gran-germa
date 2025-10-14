@@ -41,6 +41,7 @@ export default function LoginScreen({ navigation }: any) {
             style={styles.input}
             keyboardType="email-address"
             autoCapitalize="none"
+            placeholderTextColor={"#404040a1"}
           />
           <TextInput
             placeholder="write your password..."
@@ -48,6 +49,7 @@ export default function LoginScreen({ navigation }: any) {
             onChangeText={setPassword}
             secureTextEntry
             style={styles.input}
+            placeholderTextColor={"#404040a1"}
           />
 
           <TouchableOpacity style={styles.button} onPress={handleLogin}>

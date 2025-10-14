@@ -5,7 +5,7 @@ import useUbicacion from "./useUbication";
 
 export function useUsuariosCerca(radioMetros: number = 500) {
   const [usuarios, setUsuarios] = useState<any[]>([]);
-  const ubicacion = useUbicacion(); // tu hook que se va actualizando
+  const ubicacion = useUbicacion(); // hook que se va actualizando
 
   useEffect(() => {
     if (!ubicacion) return;

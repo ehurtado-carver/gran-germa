@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { theme } from "../../themeStyles";
 
 export default StyleSheet.create({
   mensajeWrapper: {
@@ -13,40 +14,57 @@ export default StyleSheet.create({
   mensajeContainer: {
     padding: 10,
     borderRadius: 15,
+    
   },
   mensajeIzquierda: {
-    backgroundColor: "#dad28bff",
+    backgroundColor: theme.colors.background,
+    borderBottomStartRadius: 0
   },
   mensajeDerecha: {
-    backgroundColor: "#007AFF",
+    backgroundColor: theme.colors.button,
+    borderBottomEndRadius: 0
   },
   mensajeText: {
-    color: "#000",
+    color: "#fff",
   },
   mensajeTextMio: {
-    color: "#fff",
+    color: "#000",
   },
   inputContainer: {
     flexDirection: "row",
     alignItems: "center",
     padding: 15,
+    paddingBottom: 45,
     borderTopColor: "#ddd",
     borderTopWidth: 1,
-    backgroundColor: "#fff",
+    backgroundColor: theme.colors.background,
   },
   input: {
     flex: 1,
-    borderColor: "#ccc",
+    color: "white",
+    backgroundColor: "#646464ff",
+    borderColor: theme.colors.input,
     borderWidth: 1,
     borderRadius: 20,
     paddingHorizontal: 15,
-    paddingVertical: 8,
+    paddingVertical: 10,
   },
   boton: {
     marginLeft: 5,
-    backgroundColor: "#007AFF",
+    backgroundColor: theme.colors.button,
     paddingHorizontal: 15,
     paddingVertical: 10,
-    borderRadius: 20,
+    borderRadius: 100,
+  },
+  avatarContainer: {
+    width: 50,
+    height: 50,
+    borderRadius: 35,
+    overflow: "hidden",
+    marginRight: 14,
+  },
+  avatar: {
+    width: "100%",
+    height: "100%",
   },
 });

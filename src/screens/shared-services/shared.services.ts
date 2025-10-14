@@ -4,7 +4,7 @@ import { db } from "../../firebaseConfig";
 export default class SharedService {
 
     //CREAR UNA SALA
-    public crearRoom = async (uid: string, lat: number|null, lng: number|null, horas = 2, isGroup: boolean, roomId: string) => {
+    public crearRoom = async (uid: string, lat: number|null, lng: number|null, horas = 2, isGroup: boolean, roomId: string, groupName: string) => {
         try {
         const ref = roomId ? doc(db, "rooms", roomId) : doc(collection(db, "rooms"));
         const expiresAt = Timestamp.fromMillis(Date.now() + horas * 60 * 60 * 1000);
@@ -19,6 +19,7 @@ export default class SharedService {
             expiresAt,
             hasMatch: false,
             isGroup: isGroup,
+            groupName: groupName,
             participants: [uid],
         });
         console.log("Room creada:", ref.id);

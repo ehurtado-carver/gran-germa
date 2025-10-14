@@ -12,18 +12,17 @@ export default StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    backgroundColor: "#ffffff56",
     padding: 14,
     marginVertical: 8,
     borderRadius: 16,
-    borderColor: "#ffffffff",
-    borderWidth: 2,
+    borderColor: theme.colors.input,
+    backgroundColor: theme.colors.input,
+    borderWidth: 4,
     shadowColor: "#000",
     shadowOpacity: 0.08,
     shadowRadius: 6,
     shadowOffset: { width: 0, height: 2 },
     elevation: 2,
-    borderLeftWidth: 0,
   },
   infoContainer: {
     flex: 1,
@@ -31,18 +30,25 @@ export default StyleSheet.create({
   name: {
     fontSize: 16,
     fontWeight: "600",
-    color: "#ffffffff",
+    color: theme.colors.background,
   },
   creator: {
     fontSize: 13,
-    color: "#fcfcfcff",
-    marginTop: 2,
+    color: theme.colors.background,
+    marginTop: 10,
+  },
+  creatorName: {
+    fontSize: 13,
+    fontWeight: "bold",
+    color: theme.colors.button,
+    marginTop: 10,
+    paddingLeft: 5
   },
   fab: {
     position: "absolute",
     bottom: 20,
     right: 20,
-    backgroundColor: "#ffffffff",
+    backgroundColor: theme.colors.button,
     width: 60,
     height: 60,
     borderRadius: 30,
@@ -59,11 +65,19 @@ export default StyleSheet.create({
     alignItems: "center",
     marginTop: 40,
   },
+  emptyText: {
+    color: theme.colors.button,
+    fontSize: 20,
+  },
   expire: {
     fontSize: 12,
-    color: "#a50a01ff",
-    marginTop: 4,
+    color: "#e71a0fff",
+    marginTop: 10,
     fontWeight: "500",
   },
-
+  timerContainer: {
+    alignItems: "center",
+    paddingRight: 10
+  },
+  timerText: { fontSize: 8, color: "#000000ff", fontWeight: "bold" },
 });
