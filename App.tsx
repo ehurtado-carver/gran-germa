@@ -10,6 +10,7 @@ import ChatRoomPrivate from "./src/screens/chat-room/chatRoomPrivate";
 import { GroupChats } from "./src/screens/groups-chats/groupChats";
 import LoginScreen from "./src/screens/session/login";
 import RegisterScreen from "./src/screens/session/register";
+import OtherUserProfile from "./src/screens/user-profile/otherUserProfile";
 import UserProfile from "./src/screens/user-profile/userProfile";
 import UserChats from "./src/screens/users-chats/userChats";
 import { theme } from "./src/themeStyles";
@@ -84,8 +85,8 @@ export default function App() {
               header: () => (
                 <View
                   style={{
-                    backgroundColor: "#404040",
-                    borderBottomColor: "#404040",
+                    backgroundColor: theme.colors.background,
+                    borderBottomColor: theme.colors.background,
                     borderBottomWidth: 0,
                     paddingTop: 50,
                     paddingBottom: 10,
@@ -111,8 +112,35 @@ export default function App() {
               header: () => (
                 <View
                   style={{
-                    backgroundColor: "#404040",
-                    borderBottomColor: "#404040",
+                    backgroundColor: theme.colors.background,
+                    borderBottomColor: theme.colors.background,
+                    borderBottomWidth: 0,
+                    paddingTop: 50,
+                    paddingBottom: 10,
+                    paddingHorizontal: 15,
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <Ionicons name="arrow-back" size={26} color="#FBF1E4" />
+                  </TouchableOpacity>
+
+                  <View style={{ width: 26 }} />
+                </View>
+              ),
+            })}
+          />
+          <Stack.Screen
+            name="OtherUserProfile"
+            component={OtherUserProfile}
+            options={({ navigation }) => ({
+              header: () => (
+                <View
+                  style={{
+                    backgroundColor: theme.colors.background,
+                    borderBottomColor: theme.colors.background,
                     borderBottomWidth: 0,
                     paddingTop: 50,
                     paddingBottom: 10,

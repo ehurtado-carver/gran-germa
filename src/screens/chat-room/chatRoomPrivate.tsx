@@ -1,7 +1,8 @@
 import { Ionicons } from "@expo/vector-icons";
 import { doc, getDoc } from "firebase/firestore";
 import React, { useEffect, useRef, useState } from "react";
-import { FlatList, Image, KeyboardAvoidingView, Platform, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { FlatList, Image, KeyboardAvoidingView, Platform, Pressable, Text, TextInput, TouchableOpacity, View } from "react-native";
+import ImageViewing from "react-native-image-viewing";
 import { auth, db } from "../../firebaseConfig";
 import SharedService from "../shared-services/shared.services";
 import ChatRoomService from "./chatRoom.service";
@@ -21,6 +22,7 @@ export default function ChatRoomPrivate({ route, navigation }: any) {
   const [mensajes, setMensajes] = useState<any[]>([]);
   const [texto, setTexto] = useState("");
   const [otherUser, setOtherUser] = useState<UserData>({name: "", image: ""});
+  const [visible, setVisible] = useState(false);
   const flatListRef = useRef<FlatList>(null);
   const uid = auth.currentUser?.uid;
 
@@ -65,6 +67,16 @@ export default function ChatRoomPrivate({ route, navigation }: any) {
     setTexto("");
   };
 
+  const handleSeeProfile = async () => {
+    navigation.navigate("OtherUserProfile", {
+          uid: userChat,
+    })
+  };
+
+  const handleShowImage = async () => {
+    setVisible(true);
+  }
+
   const formatDate = (date: Date | null) => {
     if (!date) return "";
     const dia = String(date.getDate()).padStart(2, "0");
@@ -108,18 +120,29 @@ export default function ChatRoomPrivate({ route, navigation }: any) {
       
     >
       <View style={{backgroundColor: "#404040", borderWidth: 0, borderColor: "#404040", flexDirection: "row", alignItems: "center", padding: 10}}>
-        <View style={ styles.avatarContainer }>
+        <Pressable style={ styles.avatarContainer } onPress={handleShowImage}>
           <Image
-            source={{ uri: otherUser.image || "https://i.pravatar.cc/100" }}
+            source={{ uri: otherUser.image || "https://i.pravatar.cc/150" }}
             style={styles.avatar}
           />
-        </View>
-        <Text style={{fontSize: 20, fontWeight: "bold", color: "#FCAF6B", flex: 1}}>{otherUser.name}</Text>
-        <Image
+          <ImageViewing
+            images={[{ uri: otherUser.image }]}
+            imageIndex={0}
+            visible={visible}
+            onRequestClose={() => setVisible(false)}
+          />
+        </Pressable>
+        <TouchableOpacity style={{flexDirection: "column", paddingTop: 5, flex: 1}} onPress={handleSeeProfile}>
+          <Text style={{fontSize: 20, fontWeight: "bold", color: "#FCAF6B"}}>{otherUser.name}</Text>
+          <Text style={{fontSize: 10, color: "#FBF1E4", flex: 1}}>click to see details</Text>
+        </TouchableOpacity>
+        <View style={{flexDirection: "row"}}>
+          <Image
           source={require("../../../assets/medio-logo-izq.jpeg")}
           style={{ width: 16, height: 21, marginRight: 5 }}
-        />
-        <Text style={{ color: "#FBF1E4" }}>~{Math.round(distance)} m</Text>
+          />
+          <Text style={{ color: "#FBF1E4", paddingTop: 2 }}>~{Math.round(distance)} m</Text>
+        </View>
       </View>
       <View style={{ flex: 1 }}>
         <FlatList
