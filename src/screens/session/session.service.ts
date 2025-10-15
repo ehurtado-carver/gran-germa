@@ -5,7 +5,7 @@ import { auth, db } from "../../firebaseConfig";
 export class SessionService {
 
     //REGISTRAR USUARIO
-    public async registrarUsuario(email: string, password: string, displayName: string) {
+    public async registrarUsuario(email: string, password: string, displayName: string, name: string, birthDate: Date | null) {
       const cred = await createUserWithEmailAndPassword(auth, email, password);
       await sendEmailVerification(cred.user).then(()=>{console.log("bien")}).catch((error)=>{console.log("mal", error)});
       const uid = cred.user.uid;
@@ -17,8 +17,8 @@ export class SessionService {
         email,
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
-        name: "",
-        birthDate: null,
+        name: name,
+        birthDate: birthDate,
         lastLocation: { lat: 0, lng: 0 },
         photoURL: "https://i.pravatar.cc/150",
         gruposDisponibles: 1,

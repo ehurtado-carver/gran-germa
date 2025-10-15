@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Alert, Image, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 import cder from "../../../assets/medio-logo-der.jpeg";
 import cIzq from "../../../assets/medio-logo-izq.jpeg";
 import { SessionService } from "./session.service";
@@ -9,12 +10,15 @@ import styles from "./sessionStyles";
 export default function RegisterScreen({ navigation }: any) {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [birthDate, setBirthDate] = useState<Date | null>(null);
   const [password, setPassword] = useState("");
+  const [showPicker, setShowPicker] = useState(false);
   const sessionService = new SessionService();
 
   const handleRegister = async () => {
     try {
-      await sessionService.registrarUsuario(email, password, username);
+      await sessionService.registrarUsuario(email, password, username, name, birthDate);
       Alert.alert("Registro correcto", "Ahora puedes iniciar sesión");
       navigation.goBack();
     } catch (error: any) {
@@ -56,6 +60,44 @@ export default function RegisterScreen({ navigation }: any) {
           autoCapitalize="none"
           placeholderTextColor={"#404040a1"}
         />
+        <TextInput
+          placeholder="Name and surname"
+          value={name}
+          onChangeText={setName}
+          style={styles.input}
+          autoCapitalize="none"
+          placeholderTextColor={"#404040a1"}
+        />
+
+        <TouchableOpacity
+          onPress={() => setShowPicker(true)}
+          style={[styles.input, { justifyContent: "center" }]}
+        >
+          <Text
+            style={{
+              color: !birthDate ? "#404040a1" : "#000000",
+              fontSize: 16,
+            }}
+          >
+            {birthDate
+              ? birthDate.toLocaleDateString("es-ES")
+              : "Select your birth date"}
+          </Text>
+        </TouchableOpacity>
+
+        <DateTimePickerModal
+          isVisible={showPicker}
+          mode="date"
+          textColor="black"
+          maximumDate={new Date()} // No fechas futuras
+          onConfirm={(date) => {
+            setShowPicker(false);
+            setBirthDate(date);
+          }}
+          onCancel={() => setShowPicker(false)}
+        />
+
+
         <TextInput
           placeholder="Password"
           value={password}

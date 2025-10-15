@@ -20,36 +20,46 @@ const Tab = createBottomTabNavigator();
 function Tabs() {
   return (
     <Tab.Navigator
-  screenOptions={({ route }) => ({
-    headerStyle: {
-      backgroundColor: "#d3a074ff",
-      borderColor: "#d3a074ff",
-      borderWidth: 0,
-      shadowColor: "#d3a074ff"
+      screenOptions={({ route }) => {
+        let backgroundColor = "#d3a074ff";
+        let titleColor = theme.colors.input;
 
-    },
-    headerTintColor: theme.colors.input,
-    tabBarStyle: {
-      backgroundColor: theme.colors.input,
-      borderTopColor: "transparent",
-    },
-    tabBarActiveTintColor: "#dd883eff",
-    tabBarInactiveTintColor: "#2b2b2bff",
-    tabBarIcon: ({ color, size }) => {
-      let iconName: keyof typeof Ionicons.glyphMap = "home";
+        if (route.name === "PROFILE") {
+          backgroundColor = theme.colors.background;
+          titleColor = theme.colors.input;
+        }
 
-      if (route.name === "USERS IN 500M") iconName = "chatbubble-outline";
-      else if (route.name === "GROUPS IN 500M") iconName = "chatbubbles-outline";
-      else if (route.name === "PROFILE") iconName = "person-circle-outline";
+        return {
+          headerStyle: {
+            backgroundColor: backgroundColor,
+            borderColor: backgroundColor,
+            borderWidth: 0,
+            shadowColor: backgroundColor
 
-      return <Ionicons name={iconName} size={size} color={color} />;
-    },
-  })}
->
-  <Tab.Screen name="USERS IN 500M" component={UserChats} />
-  <Tab.Screen name="GROUPS IN 500M" component={GroupChats} />
-  <Tab.Screen name="PROFILE" component={UserProfile} />
-</Tab.Navigator>
+          },
+          headerTintColor: titleColor,
+          tabBarStyle: {
+            backgroundColor: theme.colors.input,
+            borderTopColor: "transparent",
+          },
+          tabBarActiveTintColor: "#dd883eff",
+          tabBarInactiveTintColor: "#2b2b2bff",
+          tabBarIcon: ({ color, size }) => {
+            let iconName: keyof typeof Ionicons.glyphMap = "home";
+
+            if (route.name === "USERS IN 500M") iconName = "chatbubble-outline";
+            else if (route.name === "GROUPS IN 500M") iconName = "chatbubbles-outline";
+            else if (route.name === "PROFILE") iconName = "person-circle-outline";
+
+            return <Ionicons name={iconName} size={size} color={color} />;
+          },
+        };
+      }}
+    >
+      <Tab.Screen name="USERS IN 500M" component={UserChats} />
+      <Tab.Screen name="GROUPS IN 500M" component={GroupChats} />
+      <Tab.Screen name="PROFILE" component={UserProfile} />
+    </Tab.Navigator>
   );
 }
 

@@ -1,3 +1,4 @@
+import { Ionicons } from "@expo/vector-icons";
 import axios from "axios";
 import * as ImagePicker from "expo-image-picker";
 import { doc, onSnapshot, updateDoc, } from "firebase/firestore";
@@ -88,10 +89,22 @@ export default function UserProfile({ navigation }: any) {
     );
   }
 
+  const calculteYears = (date: any) => {
+    if (!date) return null;
+    const birthDate = date.seconds ? new Date(date.seconds * 1000) : date;
+    const hoy = new Date();
+    let edad = hoy.getFullYear() - birthDate.getFullYear();
+    const mes = hoy.getMonth() - birthDate.getMonth();
+    if (mes < 0 || (mes === 0 && hoy.getDate() < birthDate.getDate())) edad--;
+    return edad;
+};
+
   // Cálculo del progreso circular
   const progress = tiempoRestante
     ? 100 - (tiempoRestante / (24 * 60 * 60 * 1000)) * 100
     : 100;
+  
+  const groupsProgress = (userData.gruposDisponibles / 1) * 100;
 
   const horas = Math.floor(tiempoRestante / (1000 * 60 * 60));
   const minutos = Math.floor((tiempoRestante % (1000 * 60 * 60)) / (1000 * 60));
@@ -100,86 +113,83 @@ export default function UserProfile({ navigation }: any) {
     <ScrollView style={styles.container}>
       {/* Sección 1: Perfil e info */}
       <View style={styles.topSection}>
-        <View style={styles.leftSection}>
+        <View  style={styles.leftSection}>
           <Pressable onPress={handleChangeImage}>
             <Image
               source={{ uri: userData.photoURL || "https://i.pravatar.cc/150" }}
               style={styles.avatar}
             />
+            <View
+              style={styles.icon}
+            >
+              <Ionicons name="create" size={15} color="#404040" />
+            </View>
           </Pressable>
-        <Text style={styles.username}>{userData.displayName || "Usuario"}</Text>
+        </View>
+          
+        <View style={styles.rightSection}>
+          <Text style={styles.username}>{userData.displayName}</Text>
+          <Text style={styles.infoText}>{userData.email}</Text>
+          <Text style={styles.infoText}>{userData.name ?? ""}</Text>
+          <Text style={styles.infoText}>{calculteYears(userData.birthDate)} years</Text>
+        </View>
+          
       </View>
-
-      {/* DERECHA */}
-      <View style={styles.rightSection}>
-
-        <View style={{ flexDirection: "row", alignItems: "center", marginTop: 5 }}>
-          <Image
-            source={require("../../../assets/medio-logo-izq.jpeg")}
-            style={{ width: 16, height: 21, marginRight: 5 }}
-          />
-          <Text style={styles.infoText}>Age</Text>
-        </View>
-        <Text style={styles.infoTextResult}>24</Text>
-
-        <View style={{ flexDirection: "row", alignItems: "center", marginTop: 5 }}>
-          <Image
-            source={require("../../../assets/medio-logo-izq.jpeg")}
-            style={{ width: 16, height: 21, marginRight: 5 }}
-          />
-          <Text style={styles.infoText}>City</Text>
-        </View>
-        <Text style={styles.infoTextResult}>Badalona, Barcelona</Text>
-
-        <View style={{ flexDirection: "row", alignItems: "center", marginTop: 5 }}>
-          <Image
-            source={require("../../../assets/medio-logo-izq.jpeg")}
-            style={{ width: 16, height: 21, marginRight: 5 }}
-          />
-          <Text style={styles.infoText}>Est</Text>
-        </View>
-        <Text style={styles.infoTextResult}>13/10/2025</Text>
-      </View>
-    </View>
 
       {/* Sección 2: Estadísticas */}
-      <View style={styles.statsRow}>
+      <View style={styles.statsColumn}>
         <View style={styles.statCard}>
+          <Text style={styles.statLabel}>USERS FOUND</Text>
           <Text style={styles.statNumber}>{userData.personasEncontradas || 0}</Text>
-          <Text style={styles.statLabel}>Users found</Text>
         </View>
         <View style={styles.statCard}>
+          <Text style={styles.statLabel}>MATCHES</Text>
           <Text style={styles.statNumber}>{userData.matches || 0}</Text>
-          <Text style={styles.statLabel}>Matches</Text>
         </View>
         <View style={styles.statCard}>
+          <Text style={styles.statLabel}>GROUPS FOUND</Text>
           <Text style={styles.statNumber}>{userData.gruposEncontrados || 0}</Text>
-          <Text style={styles.statLabel}>Groups</Text>
         </View>
       </View>
 
       {/* Sección 3: Grupos y contador */}
       <View style={styles.bottomSection}>
-        <Text style={styles.groupLabel}>GROUPS</Text>
-        <View style={styles.groupCircle}>
-          <Text style={styles.groupCount}>{userData.gruposDisponibles}</Text>
-          
-        </View>
 
-        <View style={styles.timerContainer}>
-          <AnimatedCircularProgress
-            size={100}
-            width={8}
-            fill={progress}
-            tintColor="#ffffffff"
-            backgroundColor="#404040"
-          >
-            {() => (
-              <Text style={styles.timerText}>
-                {tiempoRestante > 0 ? `${horas}h ${minutos}m` : "✔️"}
-              </Text>
-            )}
-          </AnimatedCircularProgress>
+        <Text style={styles.groupLabel}>AVAILABE GROUPS</Text>
+
+        <View style={styles.groupCircle}>
+
+          <View style={styles.timerContainer}>
+            <AnimatedCircularProgress
+              size={100}
+              width={8}
+              fill={groupsProgress}
+              tintColor="#FCAF6B"
+              backgroundColor="#404040"
+            >
+              {() => (
+                <Text style={styles.timerText}>
+                  {userData.gruposDisponibles}
+                </Text>
+              )}
+            </AnimatedCircularProgress>
+          </View>
+          
+          <View style={styles.timerContainer}>
+            <AnimatedCircularProgress
+              size={100}
+              width={8}
+              fill={progress}
+              tintColor="#FCAF6B"
+              backgroundColor="#404040"
+            >
+              {() => (
+                <Text style={styles.timerText}>
+                  {tiempoRestante > 0 ? `${horas}h ${minutos}m` : "✔️"}
+                </Text>
+              )}
+            </AnimatedCircularProgress>
+          </View>
         </View>
       </View>
 
@@ -196,7 +206,7 @@ export default function UserProfile({ navigation }: any) {
             }
           }}
         >
-          <Text style={styles.logoutButtonText}>Log out</Text>
+          <Text style={styles.logoutButtonText}>LOG OUT</Text>
         </Pressable>
       </View>
     </ScrollView>
